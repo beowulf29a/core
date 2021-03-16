@@ -4,7 +4,7 @@ from typing import List, Optional
 
 from pizone import Controller, Zone
 
-from homeassistant.components.climate import ClimateDevice
+from homeassistant.components.climate import ClimateEntity
 from homeassistant.components.climate.const import (
     FAN_AUTO,
     FAN_HIGH,
@@ -26,6 +26,7 @@ from homeassistant.const import (
     ATTR_TEMPERATURE,
     CONF_EXCLUDE,
     PRECISION_HALVES,
+    PRECISION_TENTHS,
     TEMP_CELSIUS,
 )
 from homeassistant.core import callback
@@ -100,7 +101,7 @@ def _return_on_connection_error(ret=None):
     return wrap
 
 
-class ControllerDevice(ClimateDevice):
+class ControllerDevice(ClimateEntity):
     """Representation of iZone Controller."""
 
     def __init__(self, controller: Controller) -> None:
@@ -109,6 +110,8 @@ class ControllerDevice(ClimateDevice):
 
         self._supported_features = SUPPORT_FAN_MODE
 
+        # If mode RAS, or mode master with CtrlZone 13 then can set master temperature,
+        # otherwise the unit determines which zone to use as target. See interface manual p. 8
         if (
             controller.ras_mode == "master" and controller.zone_ctrl == 13
         ) or controller.ras_mode == "RAS":
@@ -250,7 +253,7 @@ class ControllerDevice(ClimateDevice):
     @property
     def precision(self) -> float:
         """Return the precision of the system."""
-        return PRECISION_HALVES
+        return PRECISION_TENTHS
 
     @property
     def device_state_attributes(self):
@@ -266,7 +269,17 @@ class ControllerDevice(ClimateDevice):
                 self.hass,
                 self._controller.temp_setpoint,
                 self.temperature_unit,
-                self.precision,
+                PRECISION_HALVES,
+            ),
+            "control_zone": self._controller.zone_ctrl,
+            "control_zone_name": self.control_zone_name,
+            # Feature SUPPORT_TARGET_TEMPERATURE controls both displaying target temp & setting it
+            # As the feature is turned off for zone control, report target temp as extra state attribute
+            "control_zone_setpoint": show_temp(
+                self.hass,
+                self.control_zone_setpoint,
+                self.temperature_unit,
+                PRECISION_HALVES,
             ),
         }
 
@@ -314,12 +327,34 @@ class ControllerDevice(ClimateDevice):
         return self._controller.temp_return
 
     @property
+    def control_zone_name(self):
+        """Return the zone that currently controls the AC unit (if target temp not set by controller)."""
+        if self._supported_features & SUPPORT_TARGET_TEMPERATURE:
+            return None
+        zone_ctrl = self._controller.zone_ctrl
+        zone = next((z for z in self.zones.values() if z.zone_index == zone_ctrl), None)
+        if zone is None:
+            return None
+        return zone.name
+
+    @property
+    def control_zone_setpoint(self) -> Optional[float]:
+        """Return the temperature setpoint of the zone that currently controls the AC unit (if target temp not set by controller)."""
+        if self._supported_features & SUPPORT_TARGET_TEMPERATURE:
+            return None
+        zone_ctrl = self._controller.zone_ctrl
+        zone = next((z for z in self.zones.values() if z.zone_index == zone_ctrl), None)
+        if zone is None:
+            return None
+        return zone.target_temperature
+
+    @property
     @_return_on_connection_error()
     def target_temperature(self) -> Optional[float]:
-        """Return the temperature we try to reach."""
-        if not self._supported_features & SUPPORT_TARGET_TEMPERATURE:
-            return None
-        return self._controller.temp_setpoint
+        """Return the temperature we try to reach (either from control zone or master unit)."""
+        if self._supported_features & SUPPORT_TARGET_TEMPERATURE:
+            return self._controller.temp_setpoint
+        return self.control_zone_setpoint
 
     @property
     def supply_temperature(self) -> float:
@@ -399,7 +434,7 @@ class ControllerDevice(ClimateDevice):
         await self.wrap_and_catch(self._controller.set_on(True))
 
 
-class ZoneDevice(ClimateDevice):
+class ZoneDevice(ClimateEntity):
     """Representation of iZone Zone."""
 
     def __init__(self, controller: ControllerDevice, zone: Zone) -> None:
@@ -494,7 +529,7 @@ class ZoneDevice(ClimateDevice):
     @property
     def precision(self):
         """Return the precision of the system."""
-        return PRECISION_HALVES
+        return PRECISION_TENTHS
 
     @property
     def hvac_mode(self):
@@ -508,7 +543,7 @@ class ZoneDevice(ClimateDevice):
     @property
     def hvac_modes(self):
         """Return the list of available operation modes."""
-        return list(self._state_to_pizone.keys())
+        return list(self._state_to_pizone)
 
     @property
     def current_temperature(self):
@@ -568,3 +603,15 @@ class ZoneDevice(ClimateDevice):
         """Turn device off (close zone)."""
         await self._controller.wrap_and_catch(self._zone.set_mode(Zone.Mode.CLOSE))
         self.async_write_ha_state()
+
+    @property
+    def zone_index(self):
+        """Return the zone index for matching to CtrlZone."""
+        return self._zone.index
+
+    @property
+    def device_state_attributes(self):
+        """Return the optional state attributes."""
+        return {
+            "zone_index": self.zone_index,
+        }

@@ -5,10 +5,10 @@ import logging
 from aiohttp import web
 
 from homeassistant.components.http import HomeAssistantView
-from homeassistant.const import HTTP_BAD_REQUEST
+from homeassistant.const import ATTR_ICON, HTTP_BAD_REQUEST
 from homeassistant.helpers.typing import HomeAssistantType
 
-from .const import ATTR_ADMIN, ATTR_ENABLE, ATTR_ICON, ATTR_PANELS, ATTR_TITLE
+from .const import ATTR_ADMIN, ATTR_ENABLE, ATTR_PANELS, ATTR_TITLE
 from .handler import HassioAPIError
 
 _LOGGER = logging.getLogger(__name__)
@@ -75,12 +75,9 @@ class HassIOAddonPanel(HomeAssistantView):
         return {}
 
 
-def _register_panel(hass, addon, data):
-    """Init coroutine to register the panel.
-
-    Return coroutine.
-    """
-    return hass.components.panel_custom.async_register_panel(
+async def _register_panel(hass, addon, data):
+    """Init coroutine to register the panel."""
+    await hass.components.panel_custom.async_register_panel(
         frontend_url_path=addon,
         webcomponent_name="hassio-main",
         sidebar_title=data[ATTR_TITLE],

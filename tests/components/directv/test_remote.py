@@ -1,5 +1,5 @@
 """The tests for the DirecTV remote platform."""
-from asynctest import patch
+from unittest.mock import patch
 
 from homeassistant.components.remote import (
     ATTR_COMMAND,

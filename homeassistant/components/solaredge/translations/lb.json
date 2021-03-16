@@ -1,15 +1,18 @@
 {
     "config": {
         "abort": {
+            "already_configured": "Apparat ass scho konfigur\u00e9iert",
             "site_exists": "D\u00ebs site_id ass scho konfigur\u00e9iert"
         },
         "error": {
-            "site_exists": "D\u00ebs site_id ass scho konfigur\u00e9iert"
+            "already_configured": "Apparat ass scho konfigur\u00e9iert",
+            "site_exists": "D\u00ebs site_id ass scho konfigur\u00e9iert",
+            "site_not_active": "De Site ass net aktiv"
         },
         "step": {
             "user": {
                 "data": {
-                    "api_key": "API Schl\u00ebssel fir d\u00ebsen Site",
+                    "api_key": "API Schl\u00ebssel",
                     "name": "Numm vun d\u00ebser Installatioun",
                     "site_id": "SolarEdge site-ID"
                 },

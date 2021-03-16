@@ -1,8 +1,7 @@
 {
     "config": {
-        "error": {
-            "identifier_exists": "Cuenta ya registrada",
-            "invalid_credentials": "Credenciales no v\u00e1lidas"
+        "abort": {
+            "already_configured": "Este controlador RainMachine ya est\u00e1 configurado."
         },
         "step": {
             "user": {

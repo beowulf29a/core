@@ -10,9 +10,9 @@
         "step": {
             "2fa": {
                 "data": {
-                    "2fa": "To-faktorskode"
+                    "2fa": "Totrinnsbekreftelse kode"
                 },
-                "title": "To-faktor autentisering"
+                "title": "Totrinnsbekreftelse"
             },
             "user": {
                 "data": {

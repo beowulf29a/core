@@ -1,7 +1,10 @@
 """Support for Fritzbox binary sensors."""
 import requests
 
-from homeassistant.components.binary_sensor import BinarySensorDevice
+from homeassistant.components.binary_sensor import (
+    DEVICE_CLASS_WINDOW,
+    BinarySensorEntity,
+)
 from homeassistant.const import CONF_DEVICES
 
 from .const import CONF_CONNECTIONS, DOMAIN as FRITZBOX_DOMAIN, LOGGER
@@ -21,7 +24,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     async_add_entities(entities, True)
 
 
-class FritzboxBinarySensor(BinarySensorDevice):
+class FritzboxBinarySensor(BinarySensorEntity):
     """Representation of a binary Fritzbox device."""
 
     def __init__(self, device, fritz):
@@ -53,7 +56,7 @@ class FritzboxBinarySensor(BinarySensorDevice):
     @property
     def device_class(self):
         """Return the class of this sensor."""
-        return "window"
+        return DEVICE_CLASS_WINDOW
 
     @property
     def is_on(self):

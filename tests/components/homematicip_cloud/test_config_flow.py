@@ -1,5 +1,5 @@
 """Tests for HomematicIP Cloud config flow."""
-from asynctest import patch
+from unittest.mock import patch
 
 from homeassistant.components.homematicip_cloud.const import (
     DOMAIN as HMIPC_DOMAIN,

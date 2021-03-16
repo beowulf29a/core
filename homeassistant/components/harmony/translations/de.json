@@ -4,7 +4,7 @@
             "already_configured": "Ger\u00e4t ist bereits konfiguriert"
         },
         "error": {
-            "cannot_connect": "Verbindung fehlgeschlagen, versuchen Sie es erneut",
+            "cannot_connect": "Verbindung fehlgeschlagen",
             "unknown": "Unerwarteter Fehler"
         },
         "flow_title": "Logitech Harmony Hub {name}",
@@ -15,7 +15,7 @@
             },
             "user": {
                 "data": {
-                    "host": "Hostname oder IP-Adresse",
+                    "host": "Host",
                     "name": "Hub-Name"
                 },
                 "title": "Richten Sie den Logitech Harmony Hub ein"

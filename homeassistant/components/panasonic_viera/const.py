@@ -10,8 +10,15 @@ CONF_ENCRYPTION_KEY = "encryption_key"
 DEFAULT_NAME = "Panasonic Viera TV"
 DEFAULT_PORT = 55000
 
-ERROR_NOT_CONNECTED = "not_connected"
-ERROR_INVALID_PIN_CODE = "invalid_pin_code"
+ATTR_REMOTE = "remote"
 
-REASON_NOT_CONNECTED = "not_connected"
-REASON_UNKNOWN = "unknown"
+ATTR_DEVICE_INFO = "device_info"
+ATTR_FRIENDLY_NAME = "friendlyName"
+ATTR_MANUFACTURER = "manufacturer"
+ATTR_MODEL_NUMBER = "modelNumber"
+ATTR_UDN = "UDN"
+
+DEFAULT_MANUFACTURER = "Panasonic"
+DEFAULT_MODEL_NUMBER = "Panasonic Viera"
+
+ERROR_INVALID_PIN_CODE = "invalid_pin_code"

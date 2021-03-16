@@ -3,6 +3,7 @@
         "action_type": {
             "brightness_decrease": "zmniejsz jasno\u015b\u0107 {entity_name}",
             "brightness_increase": "zwi\u0119ksz jasno\u015b\u0107 {entity_name}",
+            "flash": "b\u0142y\u015bnij {entity_name}",
             "toggle": "prze\u0142\u0105cz {entity_name}",
             "turn_off": "wy\u0142\u0105cz {entity_name}",
             "turn_on": "w\u0142\u0105cz {entity_name}"
@@ -18,8 +19,8 @@
     },
     "state": {
         "_": {
-            "off": "wy\u0142\u0105czony",
-            "on": "w\u0142\u0105czony"
+            "off": "wy\u0142.",
+            "on": "w\u0142."
         }
     },
     "title": "\u015awiat\u0142o"

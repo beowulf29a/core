@@ -5,9 +5,13 @@
         },
         "step": {
             "confirm": {
-                "description": "Voulez-vous configurer le composant Application mobile?",
-                "title": "Application mobile"
+                "description": "Voulez-vous configurer le composant Application mobile?"
             }
+        }
+    },
+    "device_automation": {
+        "action_type": {
+            "notify": "Envoyer une notification"
         }
     }
 }

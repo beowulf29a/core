@@ -1,16 +1,12 @@
 """Interfaces with TotalConnect sensors."""
-import logging
-
 from homeassistant.components.binary_sensor import (
     DEVICE_CLASS_DOOR,
     DEVICE_CLASS_GAS,
     DEVICE_CLASS_SMOKE,
-    BinarySensorDevice,
+    BinarySensorEntity,
 )
 
 from .const import DOMAIN
-
-_LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(hass, entry, async_add_entities) -> None:
@@ -26,7 +22,7 @@ async def async_setup_entry(hass, entry, async_add_entities) -> None:
     async_add_entities(sensors, True)
 
 
-class TotalConnectBinarySensor(BinarySensorDevice):
+class TotalConnectBinarySensor(BinarySensorEntity):
     """Represent an TotalConnect zone."""
 
     def __init__(self, zone_id, location_id, zone):

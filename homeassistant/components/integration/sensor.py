@@ -7,6 +7,7 @@ import voluptuous as vol
 from homeassistant.components.sensor import PLATFORM_SCHEMA
 from homeassistant.const import (
     ATTR_UNIT_OF_MEASUREMENT,
+    CONF_METHOD,
     CONF_NAME,
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
@@ -17,7 +18,7 @@ from homeassistant.const import (
 )
 from homeassistant.core import callback
 import homeassistant.helpers.config_validation as cv
-from homeassistant.helpers.event import async_track_state_change
+from homeassistant.helpers.event import async_track_state_change_event
 from homeassistant.helpers.restore_state import RestoreEntity
 
 # mypy: allow-untyped-defs, no-check-untyped-defs
@@ -31,7 +32,6 @@ CONF_ROUND_DIGITS = "round"
 CONF_UNIT_PREFIX = "unit_prefix"
 CONF_UNIT_TIME = "unit_time"
 CONF_UNIT_OF_MEASUREMENT = "unit"
-CONF_METHOD = "method"
 
 TRAPEZOIDAL_METHOD = "trapezoidal"
 LEFT_METHOD = "left"
@@ -127,8 +127,10 @@ class IntegrationSensor(RestoreEntity):
                 _LOGGER.warning("Could not restore last state: %s", err)
 
         @callback
-        def calc_integration(entity, old_state, new_state):
+        def calc_integration(event):
             """Handle the sensor state changes."""
+            old_state = event.data.get("old_state")
+            new_state = event.data.get("new_state")
             if (
                 old_state is None
                 or old_state.state in [STATE_UNKNOWN, STATE_UNAVAILABLE]
@@ -174,7 +176,9 @@ class IntegrationSensor(RestoreEntity):
                 self._state += integral
                 self.async_write_ha_state()
 
-        async_track_state_change(self.hass, self._sensor_source_id, calc_integration)
+        async_track_state_change_event(
+            self.hass, [self._sensor_source_id], calc_integration
+        )
 
     @property
     def name(self):
@@ -199,8 +203,7 @@ class IntegrationSensor(RestoreEntity):
     @property
     def device_state_attributes(self):
         """Return the state attributes of the sensor."""
-        state_attr = {ATTR_SOURCE_ID: self._sensor_source_id}
-        return state_attr
+        return {ATTR_SOURCE_ID: self._sensor_source_id}
 
     @property
     def icon(self):

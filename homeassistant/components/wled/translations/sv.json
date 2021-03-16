@@ -1,24 +1,19 @@
 {
     "config": {
         "abort": {
-            "already_configured": "Wykryto urz\u0105dzenie [%key:component::wled::title%]",
-            "connection_error": "Wykryto urz\u0105dzenie [%key:component::wled::title%]"
+            "already_configured": "Enheten har redan konfigurerats"
         },
-        "error": {
-            "connection_error": "Wykryto urz\u0105dzenie [%key:component::wled::title%]"
-        },
-        "flow_title": "Wykryto urz\u0105dzenie [%key:component::wled::title%]",
+        "flow_title": "WLED: {name}",
         "step": {
             "user": {
                 "data": {
                     "host": "V\u00e4rd eller IP-adress"
                 },
-                "description": "Wykryto urz\u0105dzenie [%key:component::wled::title%]",
-                "title": "Wykryto urz\u0105dzenie [%key:component::wled::title%]"
+                "description": "St\u00e4ll in din WLED f\u00f6r att integrera med Home Assistant."
             },
             "zeroconf_confirm": {
-                "description": "Wykryto urz\u0105dzenie [%key:component::wled::title%]",
-                "title": "Wykryto urz\u0105dzenie [%key:component::wled::title%]"
+                "description": "Vill du l\u00e4gga till WLED-enheten `{name}` till Home Assistant?",
+                "title": "Uppt\u00e4ckte WLED-enhet"
             }
         }
     }

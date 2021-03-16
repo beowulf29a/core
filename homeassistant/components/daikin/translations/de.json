@@ -2,13 +2,19 @@
     "config": {
         "abort": {
             "already_configured": "Ger\u00e4t ist bereits konfiguriert",
-            "device_fail": "Unerwarteter Fehler beim Erstellen des Ger\u00e4ts.",
-            "device_timeout": "Zeit\u00fcberschreitung beim Verbinden mit dem Ger\u00e4t."
+            "cannot_connect": "Verbindung fehlgeschlagen"
+        },
+        "error": {
+            "cannot_connect": "Verbindung fehlgeschlagen",
+            "invalid_auth": "Ung\u00fcltige Authentifizierung",
+            "unknown": "Unerwarteter Fehler"
         },
         "step": {
             "user": {
                 "data": {
-                    "host": "Host"
+                    "api_key": "API-Schl\u00fcssel",
+                    "host": "Host",
+                    "password": "Passwort"
                 },
                 "description": "Gib die IP-Adresse deiner Daikin AC ein.",
                 "title": "Daikin AC konfigurieren"

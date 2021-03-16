@@ -1,24 +1,22 @@
 {
     "config": {
         "abort": {
-            "already_setup": "Solo puede configurar una sola cuenta de Logi Circle.",
             "external_error": "Se produjo una excepci\u00f3n de otro flujo.",
             "external_setup": "Logi Circle se configur\u00f3 correctamente desde otro flujo."
         },
-        "create_entry": {
-            "default": "Autenticado con \u00e9xito con Logi Circle."
-        },
         "error": {
-            "auth_error": "Autorizaci\u00f3n de API fallida."
+            "follow_link": "Siga el enlace y autent\u00edquese antes de presionar Enviar."
         },
         "step": {
             "auth": {
+                "description": "Siga el enlace a continuaci\u00f3n y <b> Aceptar </b> acceda a su cuenta de Logi Circle, luego regrese y presione <b> Enviar </b> continuaci\u00f3n. \n\n[Enlace] ({authorization_url})",
                 "title": "Autenticar con Logi Circle"
             },
             "user": {
                 "data": {
                     "flow_impl": "Proveedor"
                 },
+                "description": "Elija a trav\u00e9s del proveedor de autenticaci\u00f3n que desea autenticar con Logi Circle.",
                 "title": "Proveedor de autenticaci\u00f3n"
             }
         }

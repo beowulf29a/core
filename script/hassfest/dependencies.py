@@ -103,6 +103,7 @@ ALLOWED_USED_COMPONENTS = {
     "input_number",
     "input_select",
     "input_text",
+    "onboarding",
     "persistent_notification",
     "person",
     "script",
@@ -121,6 +122,7 @@ ALLOWED_USED_COMPONENTS = {
     "cover",
     "device_tracker",
     "fan",
+    "humidifier",
     "image_processing",
     "light",
     "lock",
@@ -145,6 +147,8 @@ IGNORE_VIOLATIONS = {
     # Demo
     ("demo", "manual"),
     ("demo", "openalpr_local"),
+    # Migration wizard from zwave to ozw.
+    "ozw",
     # This should become a helper method that integrations can submit data to
     ("websocket_api", "lovelace"),
     ("websocket_api", "shopping_list"),
@@ -253,7 +257,14 @@ def validate(integrations: Dict[str, Integration], config):
             continue
 
         # check that all referenced dependencies exist
+        after_deps = integration.manifest.get("after_dependencies", [])
         for dep in integration.manifest.get("dependencies", []):
+            if dep in after_deps:
+                integration.add_error(
+                    "dependencies",
+                    f"Dependency {dep} is both in dependencies and after_dependencies",
+                )
+
             if dep not in integrations:
                 integration.add_error(
                     "dependencies", f"Dependency {dep} does not exist"

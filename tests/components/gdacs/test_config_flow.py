@@ -1,7 +1,7 @@
 """Define tests for the GDACS config flow."""
 from datetime import timedelta
+from unittest.mock import patch
 
-from asynctest import patch
 import pytest
 
 from homeassistant import data_entry_flow

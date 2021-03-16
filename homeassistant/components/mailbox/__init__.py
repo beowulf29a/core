@@ -84,7 +84,7 @@ async def async_setup(hass, config):
         await component.async_add_entities([mailbox_entity])
 
     setup_tasks = [
-        async_setup_platform(p_type, p_config)
+        asyncio.create_task(async_setup_platform(p_type, p_config))
         for p_type, p_config in config_per_platform(config, DOMAIN)
     ]
 
@@ -200,7 +200,7 @@ class MailboxPlatformsView(MailboxView):
     url = "/api/mailbox/platforms"
     name = "api:mailbox:platforms"
 
-    async def get(self, request):
+    async def get(self, request: web.Request) -> web.Response:
         """Retrieve list of platforms."""
         platforms = []
         for mailbox in self.mailboxes:

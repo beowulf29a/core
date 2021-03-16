@@ -1,6 +1,5 @@
 """Platform for climate integration."""
 from datetime import timedelta
-import logging
 from typing import Any, Dict, List, Optional
 
 from pymelcloud import DEVICE_TYPE_ATA, DEVICE_TYPE_ATW, AtaDevice, AtwDevice
@@ -13,7 +12,7 @@ from pymelcloud.atw_device import (
 )
 import voluptuous as vol
 
-from homeassistant.components.climate import ClimateDevice
+from homeassistant.components.climate import ClimateEntity
 from homeassistant.components.climate.const import (
     DEFAULT_MAX_TEMP,
     DEFAULT_MIN_TEMP,
@@ -46,8 +45,6 @@ from .const import (
 )
 
 SCAN_INTERVAL = timedelta(seconds=60)
-
-_LOGGER = logging.getLogger(__name__)
 
 
 ATA_HVAC_MODE_LOOKUP = {
@@ -98,7 +95,7 @@ async def async_setup_entry(
     )
 
 
-class MelCloudClimate(ClimateDevice):
+class MelCloudClimate(ClimateEntity):
     """Base climate device."""
 
     def __init__(self, device: MelCloudDevice):

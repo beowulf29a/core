@@ -1,13 +1,13 @@
 {
     "config": {
         "abort": {
-            "already_configured": "Controller site er allerede konfigureret",
-            "user_privilege": "Bruger skal v\u00e6re administrator"
+            "already_configured": "Controller site er allerede konfigureret"
         },
         "error": {
             "faulty_credentials": "Ugyldige legitimationsoplysninger",
             "service_unavailable": "Service utilg\u00e6ngelig"
         },
+        "flow_title": "UniFi-netv\u00e6rket {site} ({host})",
         "step": {
             "user": {
                 "data": {
